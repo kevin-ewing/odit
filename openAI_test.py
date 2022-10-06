@@ -2,20 +2,27 @@ import os
 import openai
 import json
 import git
+import re
 
 # Testing the openAI gpt-3 code-davinci-002 code translator
 # $ export OPENAI_API_KEY='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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def diff():
-  repo = git.Repo('.')
-  t = repo.head.commit.tree
-  return repo.git.diff(t)
+# def get_diff_added():
+#   repo = git.Repo('.')
+#   t = repo.head.commit.tree
+#   added_diff = ''
+#   removed_diff = ''
+#   for line in str.splitlines(repo.git.diff(t)):
+#     if re.match('^[a-zA-Z]+', line) is not None:
+#       added_diff = added_diff + "\n" + line
+  
+#   print(added_diff)
 
 def main():
   response = None
-
+  # diff = get_diff_added()
 
   try:
     response = openai.Completion.create(
@@ -36,4 +43,4 @@ def main():
     print(text_response)
 
 if __name__ == "__main__":
-    print(diff())
+    main()
