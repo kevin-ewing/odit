@@ -1,0 +1,10 @@
+Monday Sept 19: Found 15 potential sources
+Tuesday Sept 20: first and second passes of sources 1-4
+Wednesday Sept 21: first and second passes on 5-7
+Monday Sept 26: first and second pass on 9-11
+Wednesday Sept 28: outlined project proposal
+Thursday Sept 29: began work on project proposal
+Friday Sept 30: continued work on project proposal
+Sunday Oct 2: edit and proofread project proposal
+Wednesday Oct 5: began work with commmitBERT and created project repository
+Thursday Oct 6: began testing with gitPython
