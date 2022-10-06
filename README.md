@@ -8,7 +8,16 @@ Python 3.8
 
 ### Virtual Environment for openAI testing
 ```{bash}
-python3.8 -m venv env
-source env/bin/activate
+cd openAI
+python3.8 -m venv venv
+source venv/bin/activate
 pip3 install -r openAI_requirements.txt
+```
+
+### Virtual Environment for dialogue testing
+```{bash}
+cd dialogue
+python3.8 -m venv venv
+source venv/bin/activate
+pip3 install -r dialogue_requirements.txt
 ```
