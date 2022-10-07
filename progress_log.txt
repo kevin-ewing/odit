@@ -6,5 +6,5 @@ Wednesday Sept 28: outlined project proposal
 Thursday Sept 29: began work on project proposal
 Friday Sept 30: continued work on project proposal
 Sunday Oct 2: edit and proofread project proposal
-Wednesday Oct 5: began work with commmitBERT and created project repository
+Wednesday Oct 5: began work with commitBERT and created project repository
 Thursday Oct 6: began testing with gitPython
