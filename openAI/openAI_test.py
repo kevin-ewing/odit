@@ -8,7 +8,7 @@ import re
 # $ export OPENAI_API_KEY='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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
+ 
 # def get_diff_added():
 #   repo = git.Repo('.')
 #   t = repo.head.commit.tree
