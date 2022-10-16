@@ -47,10 +47,9 @@ def main():
     output_field = TextArea(style="class:output-field", text=help_text)
     input_field = TextArea(
         completer=COMMAND_COMPLETER, complete_while_typing=True,
-        height=1,
+        height=3,
         prompt="odit -> ",
         style="class:input-field",
-        multiline=False,
         wrap_lines=False,
         search_field=search_field,
     )
@@ -92,7 +91,7 @@ def main():
             elif input_field.text in ('q', 'quit'):
                 output = "quit"
             else:
-                output = "\nNot a valid odit command, type help for more information\n"
+                output = "Not a valid odit command, type help for more information\n"
         except BaseException as e:
             output = f"{e}"
         

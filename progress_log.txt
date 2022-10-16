@@ -8,3 +8,8 @@ Friday Sept 30: continued work on project proposal
 Sunday Oct 2: edit and proofread project proposal
 Wednesday Oct 5: began work with commitBERT and created project repository
 Thursday Oct 6: began testing with gitPython
+Saturday Oct 8: attempted to get codeBERT running locally
+Sunday Oct 9: group attempt to get codeBERT running locally, more discussion on what we want our dialogue to look like
+Wednesday Oct 12: prompt_toolkit crash course
+Saturday Oct 15: prompt_toolkit application creation and finalizing format of the tool
+Sunday Oct 16: autocomplete with prompt_toolkit, started work on gitPython incorporation
