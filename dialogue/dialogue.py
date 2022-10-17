@@ -1,5 +1,9 @@
 #!/usr/bin/env python
+import os
+import pygit2
+
 from prompt_toolkit.application import Application
+from prompt_toolkit.application.current import get_app
 from prompt_toolkit.document import Document
 from prompt_toolkit.filters import has_focus
 from prompt_toolkit.key_binding import KeyBindings
@@ -23,6 +27,9 @@ from prompt_toolkit.layout.containers import HSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 
+
+
+
 COMMAND_COMPLETER = WordCompleter(
     [
         "help",
@@ -36,8 +43,40 @@ COMMAND_COMPLETER = WordCompleter(
 help_text = """Type your odit command followed by enter to execute. 
 Press Control-C or run quit to exit.
 """
+
+def get_git_repo():
+    curr_dir = os.getcwd()
+    repo = pygit2.Repository(curr_dir)
+    return repo 
+
+
 def add():
     return "This is doing the adding per usual\n"
+    
+
+def git_current_status():
+    status_dict = get_git_repo().status()
+    print(status_dict)
+    new = []
+    deleted = []
+    modified = []
+    for file_name, status in status_dict.items():
+        if status == pygit2.GIT_STATUS_WT_NEW:
+            new.append(file_name)
+        elif status == pygit2.GIT_STATUS_WT_DELETED:
+            deleted.append(file_name)
+        elif status == pygit2.GIT_STATUS_WT_MODIFIED:
+            modified.append(file_name)
+    return_string = "New:\n"
+    for i in new:
+        return_string = return_string + "    " + i + "\n"
+    return_string = return_string + "\nModified:\n"
+    for i in modified:
+        return_string = return_string + "    " + i + "\n"
+    return_string = return_string + "\nDeleted:\n"
+    for i in deleted:
+        return_string = return_string + "    " + i + "\n"
+    return return_string
 
 
 def main():
@@ -45,11 +84,13 @@ def main():
     search_field = SearchToolbar()  # For reverse search.
 
     output_field = TextArea(style="class:output-field", text=help_text)
+    current_status_field_field = TextArea(style="class:current-status-field", text=git_current_status())
     input_field = TextArea(
         completer=COMMAND_COMPLETER, complete_while_typing=True,
-        height=3,
+        height=1,
         prompt="odit -> ",
         style="class:input-field",
+        multiline=False,
         wrap_lines=False,
         search_field=search_field,
     )
@@ -63,6 +104,7 @@ def main():
                     height=1),
             Window(height=1, char="=", style="class:line"),
             output_field,
+            current_status_field_field,
             Window(height=1, char="=", style="class:line"),
             input_field,
             search_field,
@@ -90,10 +132,12 @@ def main():
                 output = "This force refreshes the commits and stuff\n"
             elif input_field.text in ('q', 'quit'):
                 output = "quit"
+                get_app().exit()
             else:
                 output = "Not a valid odit command, type help for more information\n"
         except BaseException as e:
             output = f"{e}"
+            
         
         # Add text to output buffer.
         output_field.buffer.document = Document(
@@ -116,6 +160,7 @@ def main():
         [
             ("output-field", "bg:#30363d #f85149"),
             ("input-field", "bg:#000000 #ffffff"),
+            ("current-status-field", "bg:#30363d #ffffff"),
             ("line", "#fa7a18"),
         ]
     )
