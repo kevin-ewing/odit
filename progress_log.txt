@@ -14,4 +14,5 @@ Wednesday Oct 12: prompt_toolkit crash course
 Saturday Oct 15: prompt_toolkit application creation and finalizing format of the tool
 Sunday Oct 16: autocomplete with prompt_toolkit, started work on gitPython incorporation
 Monday Oct 17: incorporated git diff summary (git status) into the base screen of odit
+Wednesday Oct 18: path autocompletion working, add functionality working
 Thursday Oct 20: further attempts at getting commitBERT working, openAI considerations further explored
