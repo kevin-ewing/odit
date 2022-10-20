@@ -13,3 +13,5 @@ Sunday Oct 9: group attempt to get codeBERT running locally, more discussion on 
 Wednesday Oct 12: prompt_toolkit crash course
 Saturday Oct 15: prompt_toolkit application creation and finalizing format of the tool
 Sunday Oct 16: autocomplete with prompt_toolkit, started work on gitPython incorporation
+Monday Oct 17: incorporated git diff summary (git status) into the base screen of odit
+Thursday Oct 20: further attempts at getting commitBERT working, openAI considerations further explored

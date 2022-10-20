@@ -26,9 +26,10 @@ from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.layout.containers import HSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
-
-
-
+from prompt_toolkit.history import InMemoryHistory
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.completion import PathCompleter, merge_completers
+from prompt_toolkit.contrib.completers.system import SystemCompleter
 
 COMMAND_COMPLETER = WordCompleter(
     [
@@ -49,33 +50,68 @@ def get_git_repo():
     repo = pygit2.Repository(curr_dir)
     return repo 
 
+def get_project_root_dir():
+    curr_dir = os.getcwd()
+    repo = pygit2.discover_repository(curr_dir)
+    return repo[:-5]
 
-def add():
-    return "This is doing the adding per usual\n"
+def add(text):
+    files = text.split()[1:]
+    repo = get_git_repo()
+
+    if "." in files:
+        repo.index.add_all()
+        repo.index.write()
+        return "Added all files to to be committed.\n"
+    else:
+        for temp_file in files:
+            repo.index.add(temp_file)
+            repo.index.write()
+
+        if len(files) < 3:
+            return "Added " + " and ".join(files) + " to to be committed.\n"
+        else:
+            return "Added " + ", ".join(files[:-1]) + ", and " + files[-1] + " to be committed.\n"
     
-
 def git_current_status():
     status_dict = get_git_repo().status()
-    print(status_dict)
+    staged = []
     new = []
     deleted = []
     modified = []
+
+    #DEBUGGING
+    return_string = str(status_dict) + "\n\n\n"
+
+
+    #TODO Fix whatever bug this is... changes aren't showing up how we would expect them to
     for file_name, status in status_dict.items():
-        if status == pygit2.GIT_STATUS_WT_NEW:
-            new.append(file_name)
-        elif status == pygit2.GIT_STATUS_WT_DELETED:
+        if status & 1:
+            staged.append(file_name)
+        if status & pygit2.GIT_STATUS_WT_DELETED:
             deleted.append(file_name)
-        elif status == pygit2.GIT_STATUS_WT_MODIFIED:
+        if status & pygit2.GIT_STATUS_WT_MODIFIED:
             modified.append(file_name)
-    return_string = "New:\n"
-    for i in new:
-        return_string = return_string + "    " + i + "\n"
-    return_string = return_string + "\nModified:\n"
-    for i in modified:
-        return_string = return_string + "    " + i + "\n"
-    return_string = return_string + "\nDeleted:\n"
-    for i in deleted:
-        return_string = return_string + "    " + i + "\n"
+        if status & pygit2.GIT_STATUS_WT_NEW:
+            new.append(file_name)
+
+    # return_string = ""
+    if len(staged) != 0:
+        return_string = return_string + "Staged:\n"
+        for i in staged:
+            return_string = return_string + "    " + i + "\n"
+    if len(new) != 0:
+        return_string = return_string + "New:\n"
+        for i in new:
+            return_string = return_string + "    " + i + "\n"
+    if len(modified) != 0:
+        return_string = return_string + "Modified:\n"
+        for i in modified:
+            return_string = return_string + "    " + i + "\n"
+    if len(deleted) != 0:
+        return_string = return_string + "Deleted:\n"
+        for i in deleted:
+            return_string = return_string + "    " + i + "\n"
     return return_string
 
 
@@ -86,7 +122,9 @@ def main():
     output_field = TextArea(style="class:output-field", text=help_text)
     current_status_field_field = TextArea(style="class:current-status-field", text=git_current_status())
     input_field = TextArea(
-        completer=COMMAND_COMPLETER, complete_while_typing=True,
+        completer= merge_completers([SystemCompleter(), COMMAND_COMPLETER]),
+        complete_while_typing=True,
+        auto_suggest=AutoSuggestFromHistory(),
         height=1,
         prompt="odit -> ",
         style="class:input-field",
@@ -119,18 +157,20 @@ def main():
     #       field and add the strings to the history.
     def accept(buff):
         # Evaluate "calculator" expression.
+        command = input_field.text.split()[0]
+
         try:
-            if input_field.text == 'add':
-                output = add()
-            elif input_field.text == 'commit':
+            if command == 'add':
+                output = add(input_field.text)
+            elif command == 'commit':
                 output = "This will do the committing\n"
-            elif input_field.text == 'log':
+            elif command == 'log':
                 output = "tThis will pretty print the log for you\n"
-            elif input_field.text == 'help':
+            elif command == 'help':
                 output = "This will help you\n"
-            elif input_field.text == 'refresh':
+            elif command == 'refresh':
                 output = "This force refreshes the commits and stuff\n"
-            elif input_field.text in ('q', 'quit'):
+            elif command in ('q', 'quit'):
                 output = "quit"
                 get_app().exit()
             else:
@@ -178,4 +218,6 @@ def main():
 
 
 if __name__ == "__main__":
+    dir = get_project_root_dir()
+    os.chdir(dir)
     main()
