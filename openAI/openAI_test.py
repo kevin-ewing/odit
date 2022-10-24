@@ -10,6 +10,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def open_ai_call(diff):
   prompt = OPEN_AI_PROMPT + diff
+
+  print(prompt)
   response = openai.Completion.create(
     model="text-davinci-002",
     prompt=prompt,
@@ -31,6 +33,7 @@ def get_git_repo():
 def get_diff():
     repo  = get_git_repo()
     diff = repo.diff()
+    print(diff.patch)
     return diff.patch
 
 

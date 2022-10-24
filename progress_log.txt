@@ -16,3 +16,4 @@ Sunday Oct 16: autocomplete with prompt_toolkit, started work on gitPython incor
 Monday Oct 17: incorporated git diff summary (git status) into the base screen of odit
 Wednesday Oct 18: path autocompletion working, add functionality working
 Thursday Oct 20: further attempts at getting commitBERT working, openAI considerations further explored
+Friday Oct 21: tweaks to the openAI api call
