@@ -1,10 +1,22 @@
 #! /bin/sh
 
-OUTPUT="/Users/kewing/Desktop/odit/openAI/test.json"
+OUTPUT="/Users/kewing/Desktop/odit/openAI/test2.json"
 PROMPT="Summarize, in a few sentences, what has changed in the git diff\n\n"
 # COUNT=$(git rev-list --all --count)
 
-git_repo=('https://github.com/torvalds/linux' 'https://github.com/golang/go/commits/master' 'https://github.com/Bukkit/Bukkit' 'https://github.com/cognitect-labs/aws-api' 'https://github.com/airblade/vim-gitgutter' '')
+
+git_repo=('https://github.com/babashka/babashka.git'
+'https://github.com/open-sdr/openwifi.git'
+'https://github.com/kubernetes-sigs/cluster-api.git'
+'https://github.com/travist/jsencrypt.git'
+'https://github.com/Textualize/textual.git'
+'https://github.com/vercel/turbo.git'
+'https://github.com/heartcombo/devise.git'
+'https://github.com/dotnet/csharplang.git'
+'https://github.com/ryanoasis/nerd-fonts.git'
+'https://github.com/alibaba/easyexcel.git'
+'https://github.com/darold/pgbadger.git')
+
 
 loop_clone(){
     touch "$OUTPUT"

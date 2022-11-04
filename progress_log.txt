@@ -18,4 +18,9 @@ Tuesday Oct 18: used terminal tables to make a table with the files that have be
 Wednesday Oct 18: path autocompletion working, add functionality working
 Thursday Oct 20: further attempts at getting commitBERT working, openAI considerations further explored
 Friday Oct 21: tweaks to the openAI api call
+<<<<<<< HEAD
 Sunday Oct 30: finished the table with the file status
+=======
+Monday Oct 24: got started on creating the bash script for parsing the diffs and formatting them for model training
+Wednesday Oct 26: got bash script finished, picked repositories to train off of.
+>>>>>>> master
