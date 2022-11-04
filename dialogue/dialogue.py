@@ -31,6 +31,17 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import PathCompleter, merge_completers
 from prompt_toolkit.contrib.completers.system import SystemCompleter
 
+from table import table
+
+
+GIT_ADDED = {
+            pygit2.GIT_STATUS_INDEX_NEW, 
+            pygit2.GIT_STATUS_INDEX_MODIFIED,
+            pygit2.GIT_STATUS_INDEX_DELETED,
+            pygit2.GIT_STATUS_INDEX_RENAMED,
+            pygit2.GIT_STATUS_INDEX_TYPECHANGE
+            }
+
 COMMAND_COMPLETER = WordCompleter(
     [
         "help",
@@ -81,7 +92,7 @@ def git_current_status():
     modified = []
 
     #DEBUGGING
-    return_string = str(status_dict) + "\n\n\n"
+    return_string = ""#str(status_dict) + "\n\n\n"
 
 
     #TODO Fix whatever bug this is... changes aren't showing up how we would expect them to
@@ -115,11 +126,25 @@ def git_current_status():
     return return_string
 
 
+def get_table_data():
+    status_dict = get_git_repo().status()
+    table_data = [('File Name', 'Changed', 'Added')]
+
+    for file_name, status in status_dict.items():
+        if status in GIT_ADDED:
+            table_data.append((file_name, "", "X"))
+        else:
+            table_data.append((file_name, "X", ""))
+
+    return table("File Status", table_data)
+
+
 def main():
     # The layout.
     search_field = SearchToolbar()  # For reverse search.
 
     output_field = TextArea(style="class:output-field", text=help_text)
+    tabl = TextArea(style="class:current-status-field", text=get_table_data())
     current_status_field_field = TextArea(style="class:current-status-field", text=git_current_status())
     input_field = TextArea(
         completer= merge_completers([SystemCompleter(), COMMAND_COMPLETER]),
@@ -142,6 +167,7 @@ def main():
                     height=1),
             Window(height=1, char="=", style="class:line"),
             output_field,
+            tabl,
             current_status_field_field,
             Window(height=1, char="=", style="class:line"),
             input_field,
