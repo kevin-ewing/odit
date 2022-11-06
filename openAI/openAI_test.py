@@ -12,7 +12,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def short_open_ai_call(diff):
   prompt = SHORT_OPEN_AI_PROMPT + diff
   response = openai.Completion.create(
-    model="davinci:ft-personal-2022-11-06-17-34-26",
+    model="text-davinci-002",
     prompt=prompt,
     temperature=0.7,
     max_tokens=100,
@@ -51,8 +51,8 @@ def get_diff():
 
 if __name__ == "__main__":
     diff = get_diff()
-    # if (len(diff) < 4097):
-    #   response = short_open_ai_call(diff)
-    # else:
-    response = long_open_ai_call()
+    if (len(diff) < 4097):
+      response = short_open_ai_call(diff)
+    else:
+      response = long_open_ai_call()
     print(response.choices[0].text)
