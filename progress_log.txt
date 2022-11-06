@@ -14,6 +14,7 @@ Wednesday Oct 12: prompt_toolkit crash course
 Saturday Oct 15: prompt_toolkit application creation and finalizing format of the tool
 Sunday Oct 16: autocomplete with prompt_toolkit, started work on gitPython incorporation
 Monday Oct 17: incorporated git diff summary (git status) into the base screen of odit
+Tuesday Oct 18: used terminal tables to make a table with the files that have been changed and whether they have been "added"
 Wednesday Oct 18: path autocompletion working, add functionality working
 Thursday Oct 20: further attempts at getting commitBERT working, openAI considerations further explored
 Friday Oct 21: tweaks to the openAI api call
@@ -21,4 +22,5 @@ Monday Oct 24: got started on creating the bash script for parsing the diffs and
 Wednesday Oct 26: got bash script finished, picked repositories to train off of.
 Saturday Oct 29: more work on the model fine-tuning
 Sunday Oct 30: work done on the table to display status
+Sunday Oct 30: finished the table with the file status
 Wednesday Nov 2: Reworking model fine-tuning script for shorter, better responses
