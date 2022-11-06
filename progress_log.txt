@@ -19,3 +19,6 @@ Thursday Oct 20: further attempts at getting commitBERT working, openAI consider
 Friday Oct 21: tweaks to the openAI api call
 Monday Oct 24: got started on creating the bash script for parsing the diffs and formatting them for model training
 Wednesday Oct 26: got bash script finished, picked repositories to train off of.
+Saturday Oct 29: more work on the model fine-tuning
+Sunday Oct 30: work done on the table to display status
+Wednesday Nov 2: Reworking model fine-tuning script for shorter, better responses
