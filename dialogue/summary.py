@@ -4,10 +4,9 @@ import pygit2
 
 SHORT_OPEN_AI_PROMPT = "Summarize, in a few sentences, what has changed in the git diff\n\n"
 LONG_OPEN_AI_PROMPT = "Briefly summarize what has changed in the git diff\n\n"
+CHARACTER_CUTOFF = 1200
 
-# $ export OPENAI_API_KEY='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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 def short_open_ai_call(diff):
   prompt = SHORT_OPEN_AI_PROMPT + diff
@@ -53,7 +52,7 @@ def summarize():
     diff = get_diff()
     if len(diff) == 0:
       return "Nothing to summarize, working tree clean"
-    elif (len(diff) < 4097):
+    elif (len(diff) < CHARACTER_CUTOFF):
       response = short_open_ai_call(diff)
     else:
       response = long_open_ai_call()

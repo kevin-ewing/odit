@@ -160,20 +160,24 @@ def main():
             if command == 'add':
                 output = commands.add(input_field.text)
             elif command == 'commit':
-                output = "This will do the committing\n"
+                output = commands.commit(input_field.text)
             elif command == 'log':
                 output = "tThis will pretty print the log for you\n"
             elif command == 'help':
-                output = "This will help you\n"
+                output = commands.help()
             elif command == 'refresh':
                 output = "Force refreshed commits\n"
             elif command == 'summarize':
                 output = commands.summarize()
+            elif command == 'export':
+                output = commands.export()
+            elif command == 'clear':
+                output = ""
             elif command in ('q', 'quit', 'exit'):
                 output = "quit"
                 get_app().exit()
             else:
-                output = "Not a valid odit command, type help for more information\n"
+                output = "Not a valid odit command, type help for more information"
         except BaseException as e:
             output = f"{e}"
             
