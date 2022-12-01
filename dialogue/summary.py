@@ -51,7 +51,9 @@ def get_diff():
 
 def summarize():
     diff = get_diff()
-    if (len(diff) < 4097):
+    if len(diff) == 0:
+      return "Nothing to summarize, working tree clean"
+    elif (len(diff) < 4097):
       response = short_open_ai_call(diff)
     else:
       response = long_open_ai_call()

@@ -13,7 +13,7 @@ cd openAI
 python3.8 -m venv venv
 source venv/bin/activate
 pip3 install -r openAI_requirements.txt
-export OPENAI_API_KEY='api_key'
+export OPENAI_API_KEY='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'
 ```
 
 Also export 
