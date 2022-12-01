@@ -26,4 +26,10 @@ Sunday Oct 30: finished the table with the file status
 Wednesday Nov 2: Reworking model fine-tuning script for shorter, better responses
 Friday Nov 4: Continued work on the fine tuning of the model. Successful got model training done (albeit not as much as I would have liked)
 Sunday Nov 6: Updated to include work around for very large diffs
+
+~~~
+BIG GAP IN PROGRESS LOG, SORRY!
+~~~
+
 Wednesday Nov 30: Added table update on command
+Thursday Dec 1: Began work incorperating two branches

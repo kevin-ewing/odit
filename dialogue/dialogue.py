@@ -30,6 +30,7 @@ from prompt_toolkit.completion import PathCompleter, merge_completers
 from prompt_toolkit.contrib.completers.system import SystemCompleter
 
 from table import table
+import commands
 
 
 GIT_ADDED = {
@@ -53,37 +54,9 @@ COMMAND_COMPLETER = WordCompleter(
 help_text = """Type your odit command followed by enter to execute. 
 Press Control-C or run quit to exit.
 """
-
-def get_git_repo():
-    curr_dir = os.getcwd()
-    repo = pygit2.Repository(curr_dir)
-    return repo 
-
-def get_project_root_dir():
-    curr_dir = os.getcwd()
-    repo = pygit2.discover_repository(curr_dir)
-    return repo[:-5]
-
-def add(text):
-    files = text.split()[1:]
-    repo = get_git_repo()
-
-    if "." in files:
-        repo.index.add_all()
-        repo.index.write()
-        return "Added all files to to be committed.\n"
-    else:
-        for temp_file in files:
-            repo.index.add(temp_file)
-            repo.index.write()
-
-        if len(files) < 3:
-            return "Added " + " and ".join(files) + " to to be committed.\n"
-        else:
-            return "Added " + ", ".join(files[:-1]) + ", and " + files[-1] + " to be committed.\n"
     
 def git_current_status():
-    status_dict = get_git_repo().status()
+    status_dict = commands.get_git_repo().status()
     staged = []
     new = []
     deleted = []
@@ -125,7 +98,7 @@ def git_current_status():
 
 
 def get_table_data():
-    status_dict = get_git_repo().status()
+    status_dict = commands.get_git_repo().status()
     table_data = [('File Name', 'Changed', 'Added')]
 
     for file_name, status in status_dict.items():
@@ -185,7 +158,7 @@ def main():
 
         try:
             if command == 'add':
-                output = add(input_field.text)
+                output = commands.add(input_field.text)
             elif command == 'commit':
                 output = "This will do the committing\n"
             elif command == 'log':
@@ -193,8 +166,10 @@ def main():
             elif command == 'help':
                 output = "This will help you\n"
             elif command == 'refresh':
-                output = "This force refreshes the commits and stuff\n"
-            elif command in ('q', 'quit'):
+                output = "Force refreshed commits\n"
+            elif command == 'summarize':
+                output = commands.summarize()
+            elif command in ('q', 'quit', 'exit'):
                 output = "quit"
                 get_app().exit()
             else:
@@ -248,6 +223,6 @@ def main():
 
 
 if __name__ == "__main__":
-    dir = get_project_root_dir()
+    dir = commands.get_project_root_dir()
     os.chdir(dir)
     main()
