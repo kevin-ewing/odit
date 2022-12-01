@@ -22,8 +22,6 @@ from prompt_toolkit.layout.containers import (
     WindowAlign,
 )
 from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.layout.containers import HSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.history import InMemoryHistory
@@ -210,6 +208,11 @@ def main():
             text=output, cursor_position=len(output)
         )
 
+        tabl.buffer.document = Document(
+            text=get_table_data(), cursor_position=len(output)
+        )
+
+
     input_field.accept_handler = accept
 
     # The key bindings.
@@ -230,7 +233,7 @@ def main():
             ("line", "#fa7a18"),
         ]
     )
-
+    
     # Run application.
     application = Application(
         layout=Layout(container, focused_element=input_field),
@@ -241,6 +244,7 @@ def main():
     )
 
     application.run()
+    
 
 
 if __name__ == "__main__":
