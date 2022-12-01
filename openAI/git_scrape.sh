@@ -4,8 +4,8 @@ OUTPUT="/Users/kewing/Desktop/odit/openAI/test2.json"
 PROMPT="Summarize, in a few sentences, what has changed in the git diff\n\n"
 # COUNT=$(git rev-list --all --count)
 
-
-git_repo=('https://github.com/babashka/babashka.git'
+git_repo=(
+'https://github.com/babashka/babashka.git'
 'https://github.com/open-sdr/openwifi.git'
 'https://github.com/kubernetes-sigs/cluster-api.git'
 'https://github.com/travist/jsencrypt.git'
@@ -14,8 +14,33 @@ git_repo=('https://github.com/babashka/babashka.git'
 'https://github.com/heartcombo/devise.git'
 'https://github.com/dotnet/csharplang.git'
 'https://github.com/ryanoasis/nerd-fonts.git'
-'https://github.com/alibaba/easyexcel.git'
-'https://github.com/darold/pgbadger.git')
+'https://github.com/darold/pgbadger.git'
+'https://github.com/citusdata/citus.git'
+'https://github.com/cilium/tetragon.git'
+'https://github.com/hathach/tinyusb.git'
+'https://github.com/commaai/openpilot.git'
+'https://github.com/facebookresearch/esm.git'
+'https://github.com/geohot/tinygrad.git'
+'https://github.com/public-apis/public-apis.git'
+'https://github.com/pre-commit/pre-commit.git'
+'https://github.com/PyCQA/isort.git'
+'https://github.com/logseq/logseq.git'
+'https://github.com/pangloss/pattern.git'
+'https://github.com/lax1dude/eaglercraft.git'
+'https://github.com/line/armeria.git'
+'https://github.com/Netflix/zuul.git'
+'https://github.com/jamealg/KT-companion.git'
+'https://github.com/poteto/hiring-without-whiteboards.git'
+'https://github.com/PipedreamHQ/pipedream.git'
+'https://github.com/moment/moment.git'
+'https://github.com/hapijs/joi.git'
+'https://github.com/Shopify/liquid.git'
+'https://github.com/varvet/pundit.git'
+'https://github.com/koalaman/shellcheck.git'
+'https://github.com/purescript/purescript.git'
+'https://github.com/SagerNet/sing-box.git'
+'https://github.com/kubernetes/client-go.git'
+'https://github.com/gofiber/fiber.git')
 
 
 loop_clone(){
@@ -39,7 +64,7 @@ loop_clone(){
             TMP_PROMPT="$PRMOPT"
             TMP_PROMPT+=$COMMIT_DIFF
 
-            if ((${#COMMIT_DIFF} > 5 && ${#COMMIT_DIFF} < 20000))
+            if ((${#COMMIT_DIFF} > 5 && ${#COMMIT_DIFF} < 2048))
             then
                 echo {\"prompt\": \"$TMP_PROMPT \", \"completion\": \"$COMMIT_MESSAGE\"} >> "$OUTPUT"
             fi
