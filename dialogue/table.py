@@ -8,3 +8,4 @@ def table(title, data):
     table_instance.justify_columns[2] = 'center'
 
     return table_instance.table
+
