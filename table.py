@@ -9,6 +9,5 @@ def table(title, data):
     table_instance.justify_columns[3] = 'center'
     table_instance.justify_columns[4] = 'center'
 
-
     return table_instance.table
 

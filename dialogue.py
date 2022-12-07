@@ -51,6 +51,8 @@ COMMAND_COMPLETER = WordCompleter(
         "log",
         "push",
         "pull",
+        "refresh",
+        
     ],
     ignore_case=True,
 )
