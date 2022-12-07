@@ -41,12 +41,16 @@ GIT_ADDED = {
             pygit2.GIT_STATUS_INDEX_TYPECHANGE
             }
 
+
 COMMAND_COMPLETER = WordCompleter(
     [
         "help",
         "add",
         "commit",
         "quit",
+        "log",
+        "push",
+        "pull",
     ],
     ignore_case=True,
 )
@@ -54,58 +58,27 @@ COMMAND_COMPLETER = WordCompleter(
 help_text = """Type your odit command followed by enter to execute. 
 Press Control-C or run quit to exit.
 """
-    
-def git_current_status():
-    status_dict = commands.get_git_repo().status()
-    staged = []
-    new = []
-    deleted = []
-    modified = []
-
-    #DEBUGGING
-    return_string = ""#str(status_dict) + "\n\n\n"
-
-
-    #TODO Fix whatever bug this is... changes aren't showing up how we would expect them to
-    for file_name, status in status_dict.items():
-        if status & 1:
-            staged.append(file_name)
-        if status & pygit2.GIT_STATUS_WT_DELETED:
-            deleted.append(file_name)
-        if status & pygit2.GIT_STATUS_WT_MODIFIED:
-            modified.append(file_name)
-        if status & pygit2.GIT_STATUS_WT_NEW:
-            new.append(file_name)
-
-    # return_string = ""
-    if len(staged) != 0:
-        return_string = return_string + "Staged:\n"
-        for i in staged:
-            return_string = return_string + "    " + i + "\n"
-    if len(new) != 0:
-        return_string = return_string + "New:\n"
-        for i in new:
-            return_string = return_string + "    " + i + "\n"
-    if len(modified) != 0:
-        return_string = return_string + "Modified:\n"
-        for i in modified:
-            return_string = return_string + "    " + i + "\n"
-    if len(deleted) != 0:
-        return_string = return_string + "Deleted:\n"
-        for i in deleted:
-            return_string = return_string + "    " + i + "\n"
-    return return_string
 
 
 def get_table_data():
     status_dict = commands.get_git_repo().status()
-    table_data = [('File Name', 'Changed', 'Added')]
+    table_data = [('File Name', 'New', 'Deleted', 'Changed', 'Added')]
 
     for file_name, status in status_dict.items():
         if status in GIT_ADDED:
-            table_data.append((file_name, "", "X"))
+            if status == pygit2.GIT_STATUS_INDEX_NEW:
+                table_data.append((file_name, "X", "", "", "X"))
+            elif status == pygit2.GIT_STATUS_INDEX_DELETED:
+                table_data.append((file_name, "", "X", "", "X"))
+            else:
+                table_data.append((file_name, "", "", "", "X"))
         else:
-            table_data.append((file_name, "X", ""))
+            if status & pygit2.GIT_STATUS_WT_NEW:
+                table_data.append((file_name, "X", "", "X", ""))
+            elif status & pygit2.GIT_STATUS_INDEX_DELETED:
+                table_data.append((file_name, "", "X", "X", ""))
+            else:
+                table_data.append((file_name, "", "", "X", ""))
 
     return table("File Status", table_data)
 
@@ -116,7 +89,6 @@ def main():
 
     output_field = TextArea(style="class:output-field", text=help_text)
     tabl = TextArea(style="class:current-status-field", text=get_table_data())
-    current_status_field_field = TextArea(style="class:current-status-field", text=git_current_status())
     input_field = TextArea(
         completer= merge_completers([SystemCompleter(), COMMAND_COMPLETER]),
         complete_while_typing=True,
@@ -139,7 +111,6 @@ def main():
             Window(height=1, char="=", style="class:line"),
             output_field,
             tabl,
-            current_status_field_field,
             Window(height=1, char="=", style="class:line"),
             input_field,
             search_field,
@@ -169,10 +140,12 @@ def main():
                 output = "Force refreshed commits\n"
             elif command == 'summarize':
                 output = commands.summarize()
-            elif command == 'export':
-                output = commands.export()
             elif command == 'clear':
                 output = ""
+            elif command == 'push':
+                output = commands.push(input_field.text)
+            elif command == 'pull':
+                output = commands.pull(input_field.text)
             elif command in ('q', 'quit', 'exit'):
                 output = "quit"
                 get_app().exit()

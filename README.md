@@ -9,19 +9,9 @@ OpenAI GPT-3 access and api key.
 
 ### Virtual Environment for openAI testing
 ```{bash}
-cd openAI
 python3.8 -m venv venv
 source venv/bin/activate
-pip3 install -r openAI_requirements.txt
+pip3 install -r requirements.txt
 export OPENAI_API_KEY='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'
-```
-
-Also export 
-
-### Virtual Environment for dialogue testing
-```{bash}
-cd dialogue
-python3.8 -m venv venv
-source venv/bin/activate
-pip3 install -r dialogue_requirements.txt
+python3 odit.py
 ```
