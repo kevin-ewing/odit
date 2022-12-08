@@ -52,6 +52,8 @@ COMMAND_COMPLETER = WordCompleter(
         "push",
         "pull",
         "refresh",
+        "summarize",
+        "summary"
         
     ],
     ignore_case=True,
@@ -140,7 +142,7 @@ def main():
                 output = commands.help()
             elif command == 'refresh':
                 output = "Force refreshed commits\n"
-            elif command == 'summarize':
+            elif command in ('summary', 'summarize'):
                 output = commands.summarize()
             elif command == 'clear':
                 output = ""
