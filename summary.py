@@ -2,7 +2,7 @@ import os
 import openai
 import pygit2
 
-SHORT_OPEN_AI_PROMPT = "Describe in detail, in a few sentences, what has changed in the git diff\n\n"
+SHORT_OPEN_AI_PROMPT = "Describe in detail, in a few sentences, what has changed: \n\n"
 LONG_OPEN_AI_PROMPT = "Describe what has changed in the git diff\n\n"
 CHARACTER_CUTOFF = 1200
 

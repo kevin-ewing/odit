@@ -41,7 +41,7 @@ def commit(text):
     if not message:
         return "Add a commit message, for a overview of your changes type summarize"
     else:
-        p = os.popen('git commit --porcelain -m ' + str(message))
+        p = os.popen('git commit -m ' + str(message))
         response = p.read()
         return str(response)
 
