@@ -137,7 +137,7 @@ def main():
             elif command == 'commit':
                 output = commands.commit(input_field.text)
             elif command == 'log':
-                output = "tThis will pretty print the log for you\n"
+                output = commands.log()
             elif command == 'help':
                 output = commands.help()
             elif command == 'refresh':

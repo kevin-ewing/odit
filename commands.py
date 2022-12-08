@@ -63,3 +63,8 @@ def pull(text):
     p = os.popen('git pull --porcelain --quiet' + str(message))
     response = p.read()
     return response
+
+def log():
+    p = os.popen('git log --graph')
+    response = p.read()
+    return response
