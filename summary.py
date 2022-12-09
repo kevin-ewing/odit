@@ -41,11 +41,13 @@ def get_git_repo():
     repo = pygit2.Repository(curr_dir)
     return repo 
 
-
 def get_diff():
-    repo  = get_git_repo()
-    diff = repo.diff()
-    return diff.patch
+    # repo  = get_git_repo()
+    # diff = repo.diff()
+    # return diff.patch
+    p = os.popen('git diff')
+    response = p.read()
+    return response
 
 
 def summarize():

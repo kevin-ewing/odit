@@ -121,12 +121,6 @@ def main():
         ]
     )
 
-    # Attach accept handler to the input field. We do this by assigning the
-    # handler to the `TextArea` that we created earlier. it is also possible to
-    # pass it to the constructor of `TextArea`.
-    # NOTE: It's better to assign an `accept_handler`, rather then adding a
-    #       custom ENTER key binding. This will automatically reset the input
-    #       field and add the strings to the history.
     def accept(buff):
         # Evaluate "calculator" expression.
         command = input_field.text.split()[0]
