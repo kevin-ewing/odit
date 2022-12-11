@@ -22,8 +22,11 @@ def short_open_ai_call(diff):
   return response
 
 def long_open_ai_call():
-  p = os.popen('git diff --stat')
-  diff_summary = p.read()
+  diff_out = os.popen('git diff --stat')
+  diff_summary = diff_out.read()
+  if len(diff_summary) == 0:
+    head_out = os.popen('git diff --stat HEAD')
+    diff_summary = head_out.read()
   prompt = LONG_OPEN_AI_PROMPT + diff_summary
   response = openai.Completion.create(
     model="text-davinci-003",
@@ -45,9 +48,13 @@ def get_diff():
     # repo  = get_git_repo()
     # diff = repo.diff()
     # return diff.patch
-    p = os.popen('git diff')
-    response = p.read()
-    return response
+    diff_out = os.popen('git diff')
+    dif_response = diff_out.read()
+    if len(dif_response) == 0:
+      head_out = os.popen('git diff HEAD')
+      return head_out.read()
+    else:
+      return dif_response
 
 
 def summarize():
